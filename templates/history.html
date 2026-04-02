@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+
+<body>
+
+<div class="card">
+
+    <h2>📊 Historique</h2>
+
+    <table border="1">
+        <tr>
+            <th>ID</th>
+            <th>x1</th>
+            <th>x2</th>
+            <th>P1</th>
+            <th>P2</th>
+            <th>P</th>
+            <th>y1</th>
+            <th>y2</th>
+        </tr>
+
+        {% for row in data %}
+        <tr>
+            <td>{{row["id"]}}</td>
+            <td>{{row["x1"]}}</td>
+            <td>{{row["x2"]}}</td>
+            <td>{{row["P1"]}}</td>
+            <td>{{row["P2"]}}</td>
+            <td>{{row["P"]}}</td>
+            <td>{{row["y1"]}}</td>
+            <td>{{row["y2"]}}</td>
+        </tr>
+        {% endfor %}
+
+    </table>
+
+    <br>
+    <a href="{{ url_for('dashboard') }}">⬅ Retour</a>
+
+</div>
+<style>
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #1e293b;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+th {
+    background: #3b82f6;
+    padding: 10px;
+}
+
+td {
+    padding: 10px;
+}
+
+tr:nth-child(even) {
+    background: #020617;
+}
+
+tr:hover {
+    background: #334155;
+}
+</style>
+
+</body>
+</html>

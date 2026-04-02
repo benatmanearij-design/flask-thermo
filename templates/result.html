@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="/static/css/style.css">
+
+<style>
+.result-box {
+    background: #1e293b;
+    padding: 25px;
+    border-radius: 12px;
+    width: 350px;
+    text-align: center;
+}
+
+.valid { color: #22c55e; }
+.invalid { color: #ef4444; }
+
+.result-box p {
+    margin: 8px 0;
+    font-size: 16px;
+}
+
+.value {
+    color: #60a5fa;
+    font-weight: bold;
+}
+</style>
+</head>
+
+<body>
+
+<div class="result-box">
+
+    <h2>📊 Résultat</h2>
+
+    {% if valid %}
+        <p class="valid">{{message}}</p>
+    {% else %}
+        <p class="invalid">{{message}}</p>
+    {% endif %}
+
+    <hr>
+
+    <p>P = <span class="value">{{P}}</span></p>
+    <p>y1 = <span class="value">{{y1}}</span></p>
+    <p>y2 = <span class="value">{{y2}}</span></p>
+    <p>Somme = <span class="value">{{sum}}</span></p>
+
+    <br>
+    <a href="{{ url_for('dashboard') }}">⬅ Retour</a>
+
+</div>
+
+</body>
+</html>

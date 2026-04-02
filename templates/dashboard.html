@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="/static/css/style.css">
+
+    <style>
+        .container {
+            display: flex;
+            gap: 30px;
+            width: 90%;
+        }
+
+        .left, .right {
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .left {
+            background: #1e293b;
+            width: 60%;
+        }
+
+        .right {
+            background: #020617;
+            width: 40%;
+            border: 1px solid #3b82f6;
+        }
+
+        .label {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        input {
+            width: 90%;
+            padding: 8px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- LEFT -->
+    <div class="left">
+        <h2>Calcul pression de bulle</h2>
+
+        <form method="post" action="{{ url_for('dashboard') }}">
+
+            <div class="label">Composé 1</div>
+            <input value="Benzène" disabled>
+
+            <div class="label">x1</div>
+            <input name="x1" placeholder="0.4" required>
+
+            <div class="label">P1sat (kPa)</div>
+            <input name="P1" placeholder="101.3" required>
+
+            <hr>
+
+            <div class="label">Composé 2</div>
+            <input value="Toluène" disabled>
+
+            <div class="label">x2</div>
+            <input name="x2" placeholder="0.6" required>
+
+            <div class="label">P2sat (kPa)</div>
+            <input name="P2" placeholder="40.0" required>
+
+            <br><br>
+            <button>Calculer</button>
+        </form>
+
+        <br>
+        <a href="{{ url_for('history') }}">📊 Historique</a>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="right">
+        <h3>📘 Informations</h3>
+
+        <p><strong>Température :</strong> 80 °C</p>
+
+        <hr>
+
+        <p><strong>Loi de Raoult :</strong></p>
+        <p style="color:#60a5fa;">P = x1·P1sat + x2·P2sat</p>
+
+        <p><strong>Fractions vapeur :</strong></p>
+        <p style="color:#60a5fa;">y1 = (x1·P1sat) / P</p>
+        <p style="color:#60a5fa;">y2 = (x2·P2sat) / P</p>
+
+        <p><strong>Vérification :</strong></p>
+        <p style="color:#60a5fa;">y1 + y2 = 1</p>
+    </div>
+
+</div>
+
+</body>
+</html>
