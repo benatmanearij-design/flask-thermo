@@ -1,100 +1,95 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <link rel="stylesheet" href="/static/css/style.css">
-
-    <style>
-        .container {
-            display: flex;
-            gap: 30px;
-            width: 90%;
-        }
-
-        .left, .right {
-            padding: 20px;
-            border-radius: 10px;
-        }
-
-        .left {
-            background: #1e293b;
-            width: 60%;
-        }
-
-        .right {
-            background: #020617;
-            width: 40%;
-            border: 1px solid #3b82f6;
-        }
-
-        .label {
-            margin-top: 10px;
-            font-weight: bold;
-        }
-
-        input {
-            width: 90%;
-            padding: 8px;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <title>Arij Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-
 <body>
 
-<div class="container">
+<div class="topbar">
+    <div class="brand-text">Arij Web Application</div>
 
-    <!-- LEFT -->
-    <div class="left">
-        <h2>Calcul pression de bulle</h2>
+    <div class="right-links">
+        <a class="history-btn" href="{{ url_for('history') }}">Historique</a>
+        <a class="logout-btn" href="{{ url_for('logout') }}">Logout</a>
+    </div>
+</div>
 
-        <form method="post" action="{{ url_for('dashboard') }}">
+<div class="dashboard-wrapper">
+    <div class="hero-box">
+        <h1>Calcul de Pression de Bulle</h1>
+        <p>Welcome {{ username }} - Professional blue and white dashboard.</p>
+    </div>
 
-            <div class="label">Composé 1</div>
-            <input value="Benzène" disabled>
+    <div class="main-grid">
+        <div class="panel">
+            <h2>Composants du mélange</h2>
 
-            <div class="label">x1</div>
-            <input name="x1" placeholder="0.4" required>
+            {% if error %}
+                <div class="message-error" style="margin-bottom:16px;">{{ error }}</div>
+            {% endif %}
 
-            <div class="label">P1sat (kPa)</div>
-            <input name="P1" placeholder="101.3" required>
+            <form method="POST" action="{{ url_for('dashboard') }}">
+                <div class="two-cols">
+                    <div class="input-group">
+                        <label>Composé 1</label>
+                        <input type="text" value="Benzène" disabled>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Pression de saturation P1 (kPa)</label>
+                        <input type="text" name="P1" placeholder="Ex: 25.16" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Fraction molaire x1</label>
+                        <input type="text" name="x1" placeholder="Ex: 0.4" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Composé 2</label>
+                        <input type="text" value="Toluène" disabled>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Pression de saturation P2 (kPa)</label>
+                        <input type="text" name="P2" placeholder="Ex: 40.0" required>
+                    </div>
+
+                    <div class="input-group">
+                        <label>Fraction molaire x2</label>
+                        <input type="text" name="x2" placeholder="Ex: 0.6" required>
+                    </div>
+                </div>
+
+                <button class="btn" type="submit">Calculer</button>
+            </form>
+        </div>
+
+        <div class="panel info-box">
+            <h3>Informations</h3>
+
+            <p><strong>Température :</strong> 80 °C</p>
+            <p><strong>IP :</strong> {{ ip }}</p>
 
             <hr>
 
-            <div class="label">Composé 2</div>
-            <input value="Toluène" disabled>
+            <p><strong>Loi de Raoult :</strong></p>
+            <p class="info-formula">P = x1 × P1 + x2 × P2</p>
 
-            <div class="label">x2</div>
-            <input name="x2" placeholder="0.6" required>
+            <p><strong>Fractions vapeur :</strong></p>
+            <p class="info-formula">y1 = (x1 × P1) / P</p>
+            <p class="info-formula">y2 = (x2 × P2) / P</p>
 
-            <div class="label">P2sat (kPa)</div>
-            <input name="P2" placeholder="40.0" required>
-
-            <br><br>
-            <button>Calculer</button>
-        </form>
-
-        <br>
-        <a href="{{ url_for('history') }}">📊 Historique</a>
+            <p><strong>Vérification :</strong></p>
+            <p class="info-formula">y1 + y2 = 1</p>
+        </div>
     </div>
 
-    <!-- RIGHT -->
-    <div class="right">
-        <h3>📘 Informations</h3>
-
-        <p><strong>Température :</strong> 80 °C</p>
-
-        <hr>
-
-        <p><strong>Loi de Raoult :</strong></p>
-        <p style="color:#60a5fa;">P = x1·P1sat + x2·P2sat</p>
-
-        <p><strong>Fractions vapeur :</strong></p>
-        <p style="color:#60a5fa;">y1 = (x1·P1sat) / P</p>
-        <p style="color:#60a5fa;">y2 = (x2·P2sat) / P</p>
-
-        <p><strong>Vérification :</strong></p>
-        <p style="color:#60a5fa;">y1 + y2 = 1</p>
+    <div class="footer-note">
+        Welcome to Arij Web Application
     </div>
-
 </div>
 
 </body>

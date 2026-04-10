@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+
+<div class="page-center">
+    <div class="card">
+        <img src="{{ url_for('static', filename='logo.jpeg') }}" class="logo" alt="Logo">
+
+        <div class="uni-title">Arij Web Application</div>
+        <div class="uni-subtitle">Create your account</div>
+
+        <div class="form-title">Register</div>
+
+        {% if error %}
+            <div class="message-error">{{ error }}</div>
+        {% endif %}
+
+        <form method="POST">
+            <div class="input-group">
+                <label>Username</label>
+                <input type="text" name="username" required>
+            </div>
+
+            <div class="input-group">
+                <label>Email</label>
+                <input type="email" name="email" required>
+            </div>
+
+            <div class="input-group">
+                <label>Password</label>
+                <input type="password" name="password" required>
+            </div>
+
+            <div class="input-group">
+                <label>Confirm password</label>
+                <input type="password" name="confirm" required>
+            </div>
+
+            <button class="btn" type="submit">Create account</button>
+        </form>
+
+        <a class="link-text" href="{{ url_for('login') }}">Back to login</a>
+    </div>
+</div>
+
+</body>
+</html>

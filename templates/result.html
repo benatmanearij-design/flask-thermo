@@ -1,55 +1,111 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<link rel="stylesheet" href="/static/css/style.css">
-
-<style>
-.result-box {
-    background: #1e293b;
-    padding: 25px;
-    border-radius: 12px;
-    width: 350px;
-    text-align: center;
-}
-
-.valid { color: #22c55e; }
-.invalid { color: #ef4444; }
-
-.result-box p {
-    margin: 8px 0;
-    font-size: 16px;
-}
-
-.value {
-    color: #60a5fa;
-    font-weight: bold;
-}
-</style>
+    <meta charset="UTF-8">
+    <title>Résultat</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-
 <body>
 
-<div class="result-box">
+<div class="result-box" style="animation: zoomIn 0.6s ease;">
+    <div style="text-align:center; margin-bottom:20px;">
+        <img src="{{ url_for('static', filename='logo.jpeg') }}" alt="Logo" style="width:80px; margin-bottom:10px;">
+        <h3 style="color:#0d47a1; margin-bottom:6px;">Arij Web Application</h3>
+        <p style="color:#0d47a1;">Résultats du calcul</p>
+    </div>
 
-    <h2>📊 Résultat</h2>
+    <h2>Résultats</h2>
 
-    {% if valid %}
-        <p class="valid">{{message}}</p>
-    {% else %}
-        <p class="invalid">{{message}}</p>
-    {% endif %}
+    <p><strong>P total :</strong> {{ P }}</p>
+    <p><strong>y1 :</strong> {{ y1 }}</p>
+    <p><strong>y2 :</strong> {{ y2 }}</p>
+    <p><strong>IP :</strong> {{ ip }}</p>
 
-    <hr>
+    <!-- Bar Chart -->
+    <div class="chart-box">
+        <canvas id="resultChart"></canvas>
+    </div>
 
-    <p>P = <span class="value">{{P}}</span></p>
-    <p>y1 = <span class="value">{{y1}}</span></p>
-    <p>y2 = <span class="value">{{y2}}</span></p>
-    <p>Somme = <span class="value">{{sum}}</span></p>
+    <!-- Pie Chart -->
+    <div class="chart-box" style="margin-top:20px;">
+        <canvas id="pieChart"></canvas>
+    </div>
 
-    <br>
-    <a href="{{ url_for('dashboard') }}">⬅ Retour</a>
-
+    <div class="result-actions">
+        <a href="{{ url_for('dashboard') }}">Retour</a>
+        <a href="{{ url_for('history') }}">Historique</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </div>
 </div>
+
+<script>
+    const labels = JSON.parse('{{ chart_labels | default([]) | tojson | safe }}');
+    const values = JSON.parse('{{ chart_values | default([]) | tojson | safe }}');
+
+    if (labels.length > 0) {
+        const ctx = document.getElementById("resultChart");
+
+        new Chart(ctx, {
+            type: "bar",
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: "Calculation values",
+                    data: values,
+                    backgroundColor: ["#0d47a1", "#1565c0", "#42a5f5"],
+                    borderColor: ["#0b3d91", "#1258ad", "#2e8de0"],
+                    borderWidth: 1,
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        labels: {
+                            color: "#0d47a1"
+                        }
+                    }
+                },
+                scales: {
+                    x: {
+                        ticks: {
+                            color: "#0d47a1"
+                        },
+                        grid: {
+                            color: "#dbe7f7"
+                        }
+                    },
+                    y: {
+                        ticks: {
+                            color: "#0d47a1"
+                        },
+                        grid: {
+                            color: "#dbe7f7"
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    const pieCtx = document.getElementById("pieChart");
+
+    new Chart(pieCtx, {
+        type: "pie",
+        data: {
+            labels: ["y1", "y2"],
+            datasets: [{
+                data: [{{ y1 }}, {{ y2 }}],
+                backgroundColor: ["#0d47a1", "#42a5f5"]
+            }]
+        },
+        options: {
+            responsive: true
+        }
+    });
+</script>
 
 </body>
 </html>
