@@ -23,4 +23,4 @@ pywin32-ctypes==0.2.3
 setuptools==82.0.1
 six==1.17.0
 Werkzeug==3.1.7
-gunicorns
+gunicorn
